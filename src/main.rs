@@ -16,6 +16,8 @@ mod secrets;
 mod symlinks;
 
 use clap::{Parser, Subcommand};
+use std::env;
+use std::path::PathBuf;
 use std::process::ExitCode;
 
 rust_i18n::i18n!("locales", minify_key = true, fallback = "en");
@@ -267,6 +269,22 @@ enum ListType {
     Hooks,
 }
 
+unsafe fn default_var(var: &str, default_path: Option<PathBuf>) {
+    let Some(default_path) = default_path else {
+        return;
+    };
+
+    if !default_path.exists() || env::var(var).is_ok() {
+        return;
+    }
+
+    if let Ok(default_path) = default_path.canonicalize() {
+        unsafe {
+            env::set_var(var, default_path.to_str().unwrap());
+        }
+    }
+}
+
 fn main() -> ExitCode {
     let cli = {
         // custom targets can be set permanently through env vars or set temporarily through the cli
@@ -283,6 +301,15 @@ fn main() -> ExitCode {
     };
 
     rust_i18n::set_locale(sys_locale::get_locale().unwrap_or_default().as_str());
+
+    unsafe {
+        default_var("TUCKR_USER_CONFIG", dirs::config_dir());
+        default_var("TUCKR_USER_DESKTOP", dirs::desktop_dir());
+        default_var("TUCKR_USER_DOCUMENTS", dirs::document_dir());
+        default_var("TUCKR_USER_DATA", dirs::data_dir());
+        default_var("TUCKR_USER_DOWNLOADS", dirs::download_dir());
+        default_var("TUCKR_USER_PICTURES", dirs::picture_dir());
+    }
 
     let exit_code = match cli.command {
         Command::Set {

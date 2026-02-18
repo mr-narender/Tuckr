@@ -1196,7 +1196,7 @@ mod tests {
 
     impl Test {
         fn start() -> Self {
-            let target_dir =  dotfiles::get_dotfiles_target_dir_path().unwrap();
+            let target_dir = dotfiles::get_dotfiles_target_dir_path().unwrap();
             fs::create_dir_all(&target_dir).unwrap();
 
             crate::fileops::init_cmd(&Context::default()).unwrap();
@@ -1209,7 +1209,6 @@ mod tests {
             let filepaths = [
                 new_config_dir.join("group_file"),
                 group_dir.join("group_file_0"),
-
                 configs_dir
                     .join("shared_group1")
                     .join("shared_dir")
@@ -1325,7 +1324,7 @@ mod tests {
         let shared_dir_target = target_dir.join("shared_dir");
         _ = fs::remove_dir_all(&shared_dir_target);
 
-        let test = Test::start();
+        let _test = Test::start();
 
         assert!(!shared_dir_target.exists());
 

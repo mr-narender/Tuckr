@@ -13,3 +13,13 @@ program
 ```
 Tuckr will expand it to `/home/user/Documents/program/config.txt`.
 
+## Default paths
+Tuckr sets a few default environment variables when it runs that are useful to prevent duplicated config file for each 
+conditional target.
+
+- [`TUCKR_USER_CONFIG`](https://docs.rs/dirs/latest/dirs/fn.config_dir.html)
+- [`TUCKR_USER_DOWNLOADS`](https://docs.rs/dirs/latest/dirs/fn.download_dir.html)
+- [`TUCKR_USER_DOCUMENTS`](https://docs.rs/dirs/latest/dirs/fn.document_dir.html)
+- [`TUCKR_USER_DESKTOP`](https://docs.rs/dirs/latest/dirs/fn.desktop_dir.html) 
+- [`TUCKR_USER_DATA`](https://docs.rs/dirs/latest/dirs/fn.data_dir.html)
+- [`TUCKR_USER_PICTURES`](https://docs.rs/dirs/latest/dirs/fn.picture_dir.html)
